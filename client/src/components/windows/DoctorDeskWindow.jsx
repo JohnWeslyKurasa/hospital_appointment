@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { useWindowManager } from '../../context/WindowManagerContext';
+import { Activity, ShieldAlert, RefreshCw, CheckCircle2, XCircle, Clock, Settings, Plus, History, Lock } from 'lucide-react';
 
 export default function DoctorDeskWindow() {
   const { user } = useAuth();
@@ -44,27 +45,20 @@ export default function DoctorDeskWindow() {
     }
   };
 
-  // Role Guard Check
   if (!user || (user.role !== 'doctor' && user.role !== 'admin')) {
     return (
-      <div className="space-y-4 text-center select-text">
-        <div className="win95-inset p-6 bg-red-50 border-2 border-red-700">
-          <div className="text-5xl mb-2">🚫</div>
-          <h3 className="font-pixel text-xl font-bold text-red-800 uppercase">
-            403 ACCESS DENIED: DOCTOR ROLE REQUIRED
-          </h3>
-          <p className="text-xs font-mono font-bold text-red-900 mt-1">
-            SECURITY PROTOCOL: THIS TERMINAL IS RESTRICTED TO AUTHORIZED MEDICAL PHYSICIANS ONLY.
-          </p>
-          <div className="mt-4 flex items-center justify-center gap-2">
-            <button
-              onClick={() => openWindow('login')}
-              className="win95-btn bg-accent text-olive-moss font-pixel text-xs px-4 py-1 font-bold"
-            >
-              [ LOGIN AS DOCTOR ]
-            </button>
-          </div>
+      <div className="p-8 text-center bg-rose-50 border border-rose-200 rounded-2xl space-y-3">
+        <div className="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto">
+          <ShieldAlert className="w-6 h-6" />
         </div>
+        <h4 className="font-bold text-sm text-rose-800 uppercase">403 Access Denied: Doctor Role Required</h4>
+        <p className="text-xs text-rose-600 font-medium max-w-sm mx-auto">This workspace is restricted to authorized medical physicians and administrators.</p>
+        <button
+          onClick={() => openWindow('login')}
+          className="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-md transition-all"
+        >
+          Log In as Doctor
+        </button>
       </div>
     );
   }
@@ -74,39 +68,45 @@ export default function DoctorDeskWindow() {
     : appointments.filter((a) => a.status === filterStatus);
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {/* Header Banner */}
-      <div className="win95-inset p-3 bg-cream flex items-center justify-between border-2 border-olive-moss">
+      <div className="p-3.5 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="text-4xl">🩻</div>
+          <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs">
+            <Activity className="w-5 h-5" />
+          </div>
           <div>
-            <h3 className="font-pixel text-xl font-bold text-olive-moss">DOCTOR DESK.EXE</h3>
-            <p className="text-xs font-mono text-olive-dark">
-              PHYSICIAN CLINICAL DASHBOARD & TODAY'S PATIENT SCHEDULE
-            </p>
+            <h3 className="font-bold text-sm text-slate-900">Doctor Desk Workspace</h3>
+            <p className="text-xs text-slate-500 font-medium">Physician clinical dashboard & patient queue schedule</p>
           </div>
         </div>
 
-        <div className="text-right font-mono text-xs">
-          <span className="text-[10px] bg-accent/30 text-olive-moss font-bold px-2 py-0.5 border border-olive-moss block mb-1">
-            PHYSICIAN: {user.name}
+        <div className="flex items-center gap-2">
+          <span className="px-3 py-1 bg-white border border-slate-200 text-slate-700 font-bold text-xs rounded-xl shadow-2xs">
+            Physician: {user.name}
           </span>
-          <button onClick={fetchDoctorAppointments} className="win95-btn text-xs font-bold">
-            🔄 REFRESH SCHEDULE
+          <button
+            onClick={fetchDoctorAppointments}
+            className="px-3 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all shadow-2xs flex items-center gap-1.5"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+            <span>Refresh</span>
           </button>
         </div>
       </div>
 
       {/* Filter Toolbar */}
-      <div className="win95-inset p-2 bg-white flex items-center justify-between text-xs font-mono">
-        <div className="flex items-center gap-1 font-bold">
-          <span className="text-olive-moss">FILTER:</span>
+      <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-xl flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div className="flex items-center gap-1.5 font-bold">
+          <span className="text-slate-400 font-semibold mr-1">FILTER:</span>
           {['ALL', 'CONFIRMED', 'PENDING', 'COMPLETED', 'CANCELLED'].map((st) => (
             <button
               key={st}
               onClick={() => setFilterStatus(st)}
-              className={`win95-btn text-[10px] px-2 py-0.5 ${
-                filterStatus === st ? 'bg-olive-moss text-cream font-extrabold' : ''
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                filterStatus === st
+                  ? 'bg-blue-600 text-white shadow-2xs'
+                  : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
               }`}
             >
               {st}
@@ -114,103 +114,111 @@ export default function DoctorDeskWindow() {
           ))}
         </div>
 
-        <div className="text-olive-moss font-bold text-[11px]">
-          TOTAL PATIENTS: {appointments.length}
-        </div>
+        <span className="text-xs font-bold text-slate-600 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+          Total Patients: {appointments.length}
+        </span>
       </div>
 
-      {/* Main Schedule List */}
+      {/* Main Schedule Table */}
       {loading ? (
-        <div className="win95-inset p-8 text-center font-mono text-xs text-olive-moss">
-          ⏳ RETRIEVING CLINICAL APPOINTMENTS FROM SERVER...
+        <div className="p-12 text-center text-xs font-medium text-slate-500 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200 flex flex-col items-center gap-2">
+          <RefreshCw className="w-6 h-6 text-blue-500 animate-spin" />
+          <span>Retrieving clinical appointments from server...</span>
         </div>
       ) : filteredApps.length === 0 ? (
-        <div className="win95-inset p-6 text-center font-mono text-xs text-olive-moss bg-cream">
-          ℹ️ NO PATIENT APPOINTMENTS LOGGED FOR SELECTED FILTER.
+        <div className="p-8 text-center text-xs font-medium text-slate-500 bg-slate-50 rounded-2xl border border-slate-200">
+          <span>No patient appointments found for selected filter.</span>
         </div>
       ) : (
-        <div className="win95-inset p-2 bg-white space-y-1.5 font-mono text-xs max-h-[340px] overflow-y-auto">
-          <div className="grid grid-cols-12 gap-2 bg-olive-moss text-cream p-1.5 font-bold text-[11px] uppercase">
-            <div className="col-span-2">TIME</div>
-            <div className="col-span-4">PATIENT NAME</div>
-            <div className="col-span-3">STATUS</div>
-            <div className="col-span-3 text-right">ACTIONS</div>
+        <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-2xs text-xs">
+          <div className="grid grid-cols-12 gap-2 bg-slate-900 text-slate-200 p-3 font-bold text-[11px] uppercase">
+            <div className="col-span-2">Time</div>
+            <div className="col-span-4">Patient Name</div>
+            <div className="col-span-3">Status</div>
+            <div className="col-span-3 text-right">Actions</div>
           </div>
 
-          {filteredApps.map((app) => (
-            <div
-              key={app._id}
-              className="grid grid-cols-12 gap-2 items-center p-2 border-b border-winborder-mid hover:bg-cream-light transition-colors"
-            >
-              <div className="col-span-2 font-bold text-accent-amber bg-olive-moss px-1.5 py-0.5 text-center">
-                {app.timeSlot}
-              </div>
+          <div className="divide-y divide-slate-100 max-h-[340px] overflow-y-auto">
+            {filteredApps.map((app) => (
+              <div
+                key={app._id}
+                className="grid grid-cols-12 gap-2 items-center p-3 hover:bg-blue-50/40 transition-colors"
+              >
+                <div className="col-span-2 font-mono font-bold text-blue-700 bg-blue-50 px-2 py-1 rounded-lg text-center border border-blue-100">
+                  {app.timeSlot}
+                </div>
 
-              <div className="col-span-4">
-                <strong className="text-olive-moss block text-sm">{app.patientName}</strong>
-                <span className="text-[10px] text-gray-500 font-mono">CODE: {app.appointmentCode}</span>
-              </div>
+                <div className="col-span-4">
+                  <strong className="text-slate-800 block text-xs">{app.patientName}</strong>
+                  <span className="text-[10px] text-slate-400 font-mono">Code: {app.appointmentCode}</span>
+                </div>
 
-              <div className="col-span-3">
-                <span
-                  className={`text-[10px] font-bold px-2 py-0.5 border ${
-                    app.status === 'CONFIRMED'
-                      ? 'bg-emerald-100 text-emerald-800 border-emerald-600'
-                      : app.status === 'COMPLETED'
-                      ? 'bg-blue-100 text-blue-800 border-blue-600'
-                      : 'bg-red-100 text-red-800 border-red-600'
-                  }`}
-                >
-                  {app.status}
-                </span>
-              </div>
-
-              <div className="col-span-3 flex items-center justify-end gap-1">
-                {app.status !== 'COMPLETED' && (
-                  <button
-                    disabled={updatingId === app._id}
-                    onClick={() => handleUpdateStatus(app._id, 'COMPLETED')}
-                    className="win95-btn bg-emerald-700 text-white text-[10px] font-bold py-0.5 px-1.5"
-                    title="Mark as Completed"
+                <div className="col-span-3">
+                  <span
+                    className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border inline-block ${
+                      app.status === 'CONFIRMED'
+                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                        : app.status === 'COMPLETED'
+                        ? 'bg-blue-50 text-blue-700 border-blue-200'
+                        : 'bg-rose-50 text-rose-700 border-rose-200'
+                    }`}
                   >
-                    ✓ COMPLETE
-                  </button>
-                )}
-                {app.status !== 'CANCELLED' && (
-                  <button
-                    disabled={updatingId === app._id}
-                    onClick={() => handleUpdateStatus(app._id, 'CANCELLED')}
-                    className="win95-btn bg-red-800 text-white text-[10px] font-bold py-0.5 px-1.5"
-                    title="Cancel Appointment"
-                  >
-                    ✕ CANCEL
-                  </button>
-                )}
+                    {app.status}
+                  </span>
+                </div>
+
+                <div className="col-span-3 flex items-center justify-end gap-1.5">
+                  {app.status !== 'COMPLETED' && (
+                    <button
+                      disabled={updatingId === app._id}
+                      onClick={() => handleUpdateStatus(app._id, 'COMPLETED')}
+                      className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] rounded-lg transition-all shadow-2xs flex items-center gap-1"
+                    >
+                      <CheckCircle2 className="w-3 h-3" />
+                      <span>Complete</span>
+                    </button>
+                  )}
+                  {app.status !== 'CANCELLED' && (
+                    <button
+                      disabled={updatingId === app._id}
+                      onClick={() => handleUpdateStatus(app._id, 'CANCELLED')}
+                      className="px-2.5 py-1 bg-rose-600 hover:bg-rose-700 text-white font-bold text-[10px] rounded-lg transition-all shadow-2xs flex items-center gap-1"
+                    >
+                      <XCircle className="w-3 h-3" />
+                      <span>Cancel</span>
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Doctor Action Tools */}
-      <div className="grid grid-cols-3 gap-2 pt-2 border-t border-olive-dark/20">
+      {/* Action Bar */}
+      <div className="grid grid-cols-3 gap-3 pt-2 border-t border-slate-200 text-xs">
         <button
-          onClick={() => alert('CLINIC CONFIG: Daily schedule preferences saved.')}
-          className="win95-btn text-xs font-bold py-1"
+          onClick={() => alert('Clinic Config: Daily schedule preferences saved.')}
+          className="px-3 py-2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold rounded-xl transition-all shadow-2xs flex items-center justify-center gap-1.5"
         >
-          ⚙️ SET AVAILABILITY
+          <Settings className="w-3.5 h-3.5 text-slate-400" />
+          <span>Set Availability</span>
         </button>
+
         <button
-          onClick={() => alert('SLOT BUILDER: Emergency consultation slots generated.')}
-          className="win95-btn text-xs font-bold py-1"
+          onClick={() => alert('Slot Builder: Emergency consultation slots generated.')}
+          className="px-3 py-2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold rounded-xl transition-all shadow-2xs flex items-center justify-center gap-1.5"
         >
-          ➕ CREATE SLOTS
+          <Plus className="w-3.5 h-3.5 text-slate-400" />
+          <span>Create Slots</span>
         </button>
+
         <button
-          onClick={() => alert('HISTORY LOGS: Past patient consultation archives ready.')}
-          className="win95-btn text-xs font-bold py-1"
+          onClick={() => alert('History Logs: Past patient consultation archives ready.')}
+          className="px-3 py-2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold rounded-xl transition-all shadow-2xs flex items-center justify-center gap-1.5"
         >
-          📜 VIEW HISTORY
+          <History className="w-3.5 h-3.5 text-slate-400" />
+          <span>View History</span>
         </button>
       </div>
     </div>

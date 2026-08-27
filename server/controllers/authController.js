@@ -16,20 +16,22 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'Please provide name, email, and password' });
     }
 
-    const userExists = await User.findOne({ email });
+    const cleanEmail = email.trim().toLowerCase();
+
+    const userExists = await User.findOne({ email: cleanEmail });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists with this email' });
     }
 
     const user = await User.create({
-      name,
-      email,
-      password,
+      name: name.trim(),
+      email: cleanEmail,
+      password: password.trim(),
       dob: dob || '',
       gender: gender || 'Unspecified',
       phone: phone || '',
       address: address || '',
-      role: role || 'patient'
+      role: 'patient' // Public registration forced to 'patient'
     });
 
     res.status(201).json({
@@ -53,8 +55,16 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).populate('doctorProfile');
-    if (user && (await user.matchPassword(password))) {
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Please enter email and password' });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+
+    const user = await User.findOne({ email: cleanEmail }).populate('doctorProfile');
+    
+    if (user && (await user.matchPassword(cleanPassword))) {
       res.json({
         _id: user._id,
         name: user.name,

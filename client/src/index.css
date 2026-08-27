@@ -1,111 +1,107 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import "tailwindcss";
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --primary: #4F46E5;
+    --primary-light: #6366F1;
+    --purple: #7C3AED;
+    --cyan: #06B6D4;
+    --mint: #10B981;
+    --coral: #F97316;
+    --bg: #F7F8FC;
+    --surface: #FFFFFF;
+    --text-main: #172033;
+    --text-muted: #64748B;
+    --border-color: #E6EAF2;
+
+    --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
   }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  body {
+    font-family: var(--font-sans);
+    background-color: #F7F8FC;
+    color: #172033;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  #root {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
   }
 }
 
-body {
-  margin: 0;
+/* Premium Healthcare SaaS Utility Tokens */
+.med-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E6EAF2;
+  box-shadow: 0 4px 20px -2px rgba(23, 32, 51, 0.04), 0 2px 6px -1px rgba(23, 32, 51, 0.02);
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+.med-card-hover {
+  transition: all 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+.med-card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -4px rgba(79, 70, 229, 0.08), 0 4px 12px -2px rgba(23, 32, 51, 0.04);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+/* Pastel Card Decorative Gradient Wave Lines */
+.card-wave-indigo {
+  background: linear-gradient(90deg, rgba(79, 70, 229, 0.15) 0%, rgba(99, 102, 241, 0) 100%);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+.card-wave-cyan {
+  background: linear-gradient(90deg, rgba(6, 182, 212, 0.15) 0%, rgba(56, 189, 248, 0) 100%);
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.card-wave-mint {
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0) 100%);
+}
+
+.card-wave-violet {
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0.15) 0%, rgba(167, 139, 250, 0) 100%);
+}
+
+.card-wave-coral {
+  background: linear-gradient(90deg, rgba(249, 115, 22, 0.15) 0%, rgba(251, 146, 60, 0) 100%);
+}
+
+.card-wave-turquoise {
+  background: linear-gradient(90deg, rgba(20, 184, 166, 0.15) 0%, rgba(45, 212, 191, 0) 100%);
+}
+
+/* Background healthcare grid & gradient Mesh */
+.med-saas-bg {
+  background-color: #F7F8FC;
+  background-image: 
+    radial-gradient(circle at 5% 10%, rgba(79, 70, 229, 0.03) 0%, transparent 35%),
+    radial-gradient(circle at 95% 85%, rgba(6, 182, 212, 0.03) 0%, transparent 35%),
+    radial-gradient(#CBD5E1 0.75px, transparent 0.75px);
+  background-size: 100% 100%, 100% 100%, 28px 28px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(247, 248, 252, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
 }

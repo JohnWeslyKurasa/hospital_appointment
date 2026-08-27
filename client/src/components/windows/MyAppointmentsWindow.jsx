@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { useWindowManager } from '../../context/WindowManagerContext';
+import { 
+  CalendarCheck, RefreshCw, Clock, CheckCircle2, 
+  XCircle, Plus, FileText, Lock, Eye, AlertCircle
+} from 'lucide-react';
 
 export default function MyAppointmentsWindow() {
   const { user } = useAuth();
@@ -33,7 +37,7 @@ export default function MyAppointmentsWindow() {
   };
 
   const handleCancelAppointment = async (id) => {
-    if (!window.confirm('ARE YOU SURE YOU WANT TO CANCEL THIS APPOINTMENT?')) return;
+    if (!window.confirm('Are you sure you want to cancel this appointment?')) return;
     try {
       setCancellingId(id);
       await api.delete(`/appointments/${id}`);
@@ -47,16 +51,18 @@ export default function MyAppointmentsWindow() {
 
   if (!user) {
     return (
-      <div className="space-y-4 text-center">
-        <div className="win95-inset p-6 bg-cream border border-olive-moss/40">
-          <div className="text-4xl mb-2">🔑</div>
-          <h3 className="font-pixel text-lg font-bold text-olive-moss">PATIENT LOGIN REQUIRED</h3>
-          <p className="text-xs font-mono text-olive-dark mt-1">PLEASE LOGIN TO ACCESS YOUR PERSONAL APPOINTMENT RECORDS.</p>
+      <div className="space-y-4 text-center py-6">
+        <div className="p-8 bg-slate-50 border border-slate-200/90 rounded-2xl max-w-md mx-auto space-y-3 shadow-xs">
+          <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto">
+            <Lock className="w-6 h-6" />
+          </div>
+          <h3 className="font-bold text-base text-slate-800">Patient Authentication Required</h3>
+          <p className="text-xs text-slate-500 font-medium">Please login to access your personal appointment schedule and medical ledger.</p>
           <button
             onClick={() => openWindow('login')}
-            className="win95-btn bg-accent text-olive-moss font-pixel text-sm px-4 py-1 font-bold mt-4"
+            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-500/20 transition-all inline-flex items-center gap-2"
           >
-            [ LOGIN NOW ]
+            <span>Log In Now</span>
           </button>
         </div>
       </div>
@@ -77,72 +83,103 @@ export default function MyAppointmentsWindow() {
       : appointments;
 
   return (
-    <div className="space-y-3">
-      {/* Header */}
-      <div className="win95-inset p-2.5 bg-cream flex items-center justify-between border border-olive-moss/40">
+    <div className="space-y-4">
+      {/* Header Banner */}
+      <div className="p-3.5 bg-slate-50 border border-slate-200/90 rounded-2xl flex flex-wrap items-center justify-between gap-3 shadow-2xs">
         <div className="flex items-center gap-3">
-          <div className="text-3xl">📋</div>
+          <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs">
+            <CalendarCheck className="w-5 h-5" />
+          </div>
           <div>
-            <h3 className="font-pixel text-lg font-bold text-olive-moss">MY APPOINTMENTS.EXE</h3>
-            <p className="text-xs text-olive-dark font-mono">PATIENT RESERVATION LEDGER & MEDICAL SCHEDULE</p>
+            <h3 className="font-bold text-sm text-slate-900">My Appointments</h3>
+            <p className="text-xs text-slate-500 font-medium">Patient reservation ledger & medical schedule</p>
           </div>
         </div>
 
-        <button onClick={fetchAppointments} className="win95-btn text-xs font-bold">
-          🔄 REFRESH LEDGER
+        <button
+          onClick={fetchAppointments}
+          className="px-3.5 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all shadow-2xs flex items-center gap-1.5"
+        >
+          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+          <span>Refresh Ledger</span>
         </button>
       </div>
 
-      {/* Retro Navigation Tabs */}
-      <div className="flex items-center gap-1 border-b-2 border-olive-moss pb-1 text-xs font-pixel font-bold">
+      {/* Navigation Filter Tabs */}
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto">
         <button
           onClick={() => setActiveTab('upcoming')}
-          className={`win95-btn py-1 px-3 ${activeTab === 'upcoming' ? 'bg-accent text-olive-moss border-2 border-olive-moss font-extrabold' : ''}`}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            activeTab === 'upcoming'
+              ? 'bg-blue-600 text-white shadow-xs'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          }`}
         >
-          📅 UPCOMING ({upcomingList.length})
+          <Clock className="w-3.5 h-3.5" />
+          <span>Upcoming ({upcomingList.length})</span>
         </button>
+
         <button
           onClick={() => setActiveTab('completed')}
-          className={`win95-btn py-1 px-3 ${activeTab === 'completed' ? 'bg-emerald-700 text-white font-extrabold' : ''}`}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            activeTab === 'completed'
+              ? 'bg-emerald-600 text-white shadow-xs'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          }`}
         >
-          ✅ COMPLETED ({completedList.length})
+          <CheckCircle2 className="w-3.5 h-3.5" />
+          <span>Completed ({completedList.length})</span>
         </button>
+
         <button
           onClick={() => setActiveTab('cancelled')}
-          className={`win95-btn py-1 px-3 ${activeTab === 'cancelled' ? 'bg-red-800 text-white font-extrabold' : ''}`}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            activeTab === 'cancelled'
+              ? 'bg-rose-600 text-white shadow-xs'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          }`}
         >
-          ❌ CANCELLED ({cancelledList.length})
+          <XCircle className="w-3.5 h-3.5" />
+          <span>Cancelled ({cancelledList.length})</span>
         </button>
+
         <button
           onClick={() => setActiveTab('all')}
-          className={`win95-btn py-1 px-3 ${activeTab === 'all' ? 'bg-olive-moss text-cream font-extrabold' : ''}`}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            activeTab === 'all'
+              ? 'bg-slate-900 text-white shadow-xs'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          }`}
         >
-          📜 ALL ({appointments.length})
+          <FileText className="w-3.5 h-3.5" />
+          <span>All Records ({appointments.length})</span>
         </button>
       </div>
 
-      {/* Appointment Cards List */}
+      {/* Appointment List Cards */}
       {loading ? (
-        <div className="win95-inset p-8 text-center font-mono text-xs text-olive-moss">
-          ⏳ QUERYING PATIENT APPOINTMENT RECORDS...
+        <div className="p-12 text-center text-xs font-medium text-slate-500 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200 flex flex-col items-center gap-2">
+          <RefreshCw className="w-6 h-6 text-blue-500 animate-spin" />
+          <span>Querying patient appointment records...</span>
         </div>
       ) : displayedList.length === 0 ? (
-        <div className="win95-inset p-6 text-center font-mono text-xs text-olive-moss bg-cream">
-          ℹ️ NO APPOINTMENTS FOUND IN THIS CATEGORY.
+        <div className="p-8 text-center text-xs font-medium text-slate-500 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col items-center gap-2">
+          <AlertCircle className="w-6 h-6 text-slate-400" />
+          <span>No appointments found in this category.</span>
         </div>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-3">
           {displayedList.map((app) => (
             <div
               key={app._id}
-              className="win95-box p-3 border-2 border-olive-moss flex flex-wrap items-center justify-between gap-3 bg-white"
+              className="p-4 bg-white border border-slate-200/90 rounded-2xl flex flex-wrap items-center justify-between gap-4 hover:shadow-md transition-all duration-200"
             >
-              {/* Date Badge */}
-              <div className="win95-inset bg-cream p-2 text-center w-24 border border-olive-moss/40">
-                <div className="font-pixel text-sm font-extrabold text-olive-moss uppercase">
+              {/* Date & Time Badge */}
+              <div className="p-2.5 bg-blue-50/80 border border-blue-100 rounded-xl text-center min-w-[100px]">
+                <div className="text-xs font-extrabold text-blue-900 font-mono">
                   {app.date}
                 </div>
-                <div className="text-xs font-mono font-bold text-accent-amber bg-olive-moss px-1 py-0.2 mt-0.5">
+                <div className="text-[10px] font-bold text-blue-700 font-mono mt-0.5">
                   {app.timeSlot}
                 </div>
               </div>
@@ -150,32 +187,32 @@ export default function MyAppointmentsWindow() {
               {/* Appointment Info */}
               <div className="flex-1 min-w-[200px]">
                 <div className="flex items-center gap-2">
-                  <span className="font-pixel text-base font-bold text-olive-moss uppercase">
+                  <h4 className="font-bold text-sm text-slate-900">
                     {app.doctorName}
-                  </span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.2 bg-olive-moss/10 font-bold border border-olive-moss/30">
+                  </h4>
+                  <span className="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md border border-slate-200">
                     {app.departmentName}
                   </span>
                 </div>
-                <div className="text-xs font-mono text-gray-600 mt-0.5">
-                  ID: <span className="font-bold text-olive-dark">{app.appointmentCode}</span>
+                <div className="text-xs text-slate-500 font-mono mt-0.5">
+                  Code: <span className="font-bold text-slate-700">{app.appointmentCode}</span>
                 </div>
                 {app.notes && (
-                  <div className="text-[11px] font-mono italic text-gray-500 mt-1">
+                  <p className="text-xs text-slate-600 italic mt-1 bg-slate-50 p-2 rounded-lg border border-slate-100">
                     "{app.notes}"
-                  </div>
+                  </p>
                 )}
               </div>
 
               {/* Status Badge */}
               <div>
                 <span
-                  className={`text-[10px] font-mono font-extrabold px-2.5 py-1 border block text-center ${
+                  className={`text-xs font-bold px-3 py-1 rounded-full border inline-block ${
                     app.status === 'CONFIRMED'
-                      ? 'bg-emerald-100 text-emerald-800 border-emerald-600'
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                       : app.status === 'COMPLETED'
-                      ? 'bg-blue-100 text-blue-800 border-blue-600'
-                      : 'bg-red-100 text-red-800 border-red-600 line-through'
+                      ? 'bg-blue-50 text-blue-700 border-blue-200'
+                      : 'bg-rose-50 text-rose-700 border-rose-200 line-through'
                   }`}
                 >
                   {app.status}
@@ -183,20 +220,22 @@ export default function MyAppointmentsWindow() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 <button
                   onClick={() => openWindow('confirmation', { appointment: app })}
-                  className="win95-btn text-xs font-bold"
+                  className="px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all shadow-2xs flex items-center gap-1"
                 >
-                  [ VIEW ]
+                  <Eye className="w-3.5 h-3.5 text-slate-400" />
+                  <span>View</span>
                 </button>
+
                 {app.status === 'CONFIRMED' && (
                   <button
                     disabled={cancellingId === app._id}
                     onClick={() => handleCancelAppointment(app._id)}
-                    className="win95-btn bg-red-100 text-red-800 text-xs font-bold border-red-700 hover:bg-red-200"
+                    className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 text-xs font-bold rounded-xl transition-all"
                   >
-                    {cancellingId === app._id ? 'CANCELING...' : '[ CANCEL ]'}
+                    {cancellingId === app._id ? 'Cancelling...' : 'Cancel'}
                   </button>
                 )}
               </div>
@@ -205,13 +244,14 @@ export default function MyAppointmentsWindow() {
         </div>
       )}
 
-      {/* Book New Shortcut */}
-      <div className="pt-2 border-t border-olive-dark/20 flex justify-end">
+      {/* Book New Appointment Shortcut */}
+      <div className="pt-2 border-t border-slate-200 flex justify-end">
         <button
           onClick={() => openWindow('booking')}
-          className="win95-btn bg-accent text-olive-moss font-pixel text-xs px-4 py-1 font-bold"
+          className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-500/20 transition-all flex items-center gap-2"
         >
-          ➕ [ BOOK NEW APPOINTMENT ]
+          <Plus className="w-4 h-4" />
+          <span>Book New Appointment</span>
         </button>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { useWindowManager } from '../../context/WindowManagerContext';
+import { Calendar, Clock, AlertCircle, CheckCircle2, XCircle, FileText, User, Building2 } from 'lucide-react';
 
 export default function BookingWindow({ windowData }) {
   const { user } = useAuth();
@@ -93,13 +94,13 @@ export default function BookingWindow({ windowData }) {
     setError('');
 
     if (!user) {
-      setError('PATIENT NOT AUTHENTICATED. PLEASE LOGIN FIRST.');
+      setError('Patient not authenticated. Please login first to continue.');
       openWindow('login');
       return;
     }
 
     if (!selectedDoctorId || !selectedDate || !selectedSlot) {
-      setError('PLEASE SELECT A DOCTOR, DATE, AND TIME SLOT.');
+      setError('Please select a physician, consultation date, and available time slot.');
       return;
     }
 
@@ -114,48 +115,50 @@ export default function BookingWindow({ windowData }) {
 
       setLoading(false);
       closeWindow('booking');
-
-      // Open retro confirmation dialog with returned appointment details!
       openWindow('confirmation', { appointment: res.data });
     } catch (err) {
       setLoading(false);
-      setError(err.response?.data?.message || 'APPOINTMENT BOOKING FAILED.');
+      setError(err.response?.data?.message || 'Appointment booking failed.');
     }
   };
 
   return (
     <div className="space-y-4">
-      {/* Header */}
-      <div className="win95-inset p-2.5 bg-cream flex items-center gap-3 border border-olive-moss/40">
-        <div className="text-3xl">📅</div>
+      {/* Header Banner */}
+      <div className="p-3.5 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs">
+          <Calendar className="w-5 h-5" />
+        </div>
         <div>
-          <h3 className="font-pixel text-lg font-bold text-olive-moss">APPOINTMENT.EXE</h3>
-          <p className="text-xs text-olive-dark font-mono">SCHEDULE HOSPITAL CONSULTATION & RESERVE TIME SLOT</p>
+          <h3 className="font-bold text-sm text-slate-900">Schedule Appointment</h3>
+          <p className="text-xs text-slate-500 font-medium">Reserve consultation time slot with hospital physician</p>
         </div>
       </div>
 
       {error && (
-        <div className="bg-red-100 border-2 border-red-700 text-red-800 p-2 text-xs font-mono font-bold">
-          ⚠️ BOOKING ERROR: {error}
+        <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-medium flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
+          <span>{error}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-3 text-xs">
+      <form onSubmit={handleSubmit} className="space-y-4 text-xs">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {/* Department Selection */}
           <div>
-            <label className="block font-bold text-olive-moss mb-1">
-              DEPARTMENT:
+            <label className="block font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+              <Building2 className="w-3.5 h-3.5 text-slate-400" />
+              <span>DEPARTMENT</span>
             </label>
             <select
               value={selectedDept}
               onChange={(e) => handleDeptChange(e.target.value)}
-              className="win95-input w-full font-bold"
+              className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             >
-              <option value="">[ ALL DEPARTMENTS ]</option>
+              <option value="">All Departments</option>
               {departments.map((d) => (
                 <option key={d._id} value={d.name}>
-                  {d.icon} {d.name}
+                  {d.name}
                 </option>
               ))}
             </select>
@@ -163,39 +166,43 @@ export default function BookingWindow({ windowData }) {
 
           {/* Doctor Selection */}
           <div>
-            <label className="block font-bold text-olive-moss mb-1">
-              DOCTOR:
+            <label className="block font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+              <User className="w-3.5 h-3.5 text-slate-400" />
+              <span>PHYSICIAN</span>
             </label>
             <select
               value={selectedDoctorId}
               onChange={(e) => handleDoctorChange(e.target.value)}
-              className="win95-input w-full font-bold"
+              className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             >
               {filteredDoctors.map((doc) => (
                 <option key={doc._id} value={doc._id}>
-                  {doc.name} ({doc.departmentName})
+                  {doc.name} ({doc.departmentName || 'Specialist'})
                 </option>
               ))}
             </select>
           </div>
         </div>
 
-        {/* Selected Doctor Summary Box */}
+        {/* Selected Doctor Summary */}
         {currentDoctor && (
-          <div className="win95-inset p-2 bg-cream text-[11px] font-mono flex items-center justify-between">
-            <div>
-              <strong>SELECTED PHYSICIAN:</strong> {currentDoctor.name} ({currentDoctor.qualifications})
+          <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-slate-700">{currentDoctor.name}</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-slate-500">{currentDoctor.qualifications}</span>
             </div>
-            <div className="font-bold text-olive-moss bg-accent/20 px-2 py-0.5 border border-olive-moss">
-              FEE: ₹{currentDoctor.consultationFee}
-            </div>
+            <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-bold border border-emerald-200 rounded-lg text-xs">
+              Fee: ₹{currentDoctor.consultationFee}
+            </span>
           </div>
         )}
 
         {/* Date Selection */}
         <div>
-          <label className="block font-bold text-olive-moss mb-1">
-            CONSULTATION DATE:
+          <label className="block font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+            <Calendar className="w-3.5 h-3.5 text-slate-400" />
+            <span>CONSULTATION DATE</span>
           </label>
           <input
             type="date"
@@ -205,17 +212,18 @@ export default function BookingWindow({ windowData }) {
               setSelectedDate(e.target.value);
               setSelectedSlot('');
             }}
-            className="win95-input w-full font-mono text-sm"
+            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
           />
         </div>
 
         {/* Available Time Slots Grid */}
         <div>
-          <label className="block font-bold text-olive-moss mb-1">
-            AVAILABLE TIME SLOTS (CLICK TO SELECT):
+          <label className="block font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+            <Clock className="w-3.5 h-3.5 text-slate-400" />
+            <span>AVAILABLE TIME SLOTS</span>
           </label>
 
-          <div className="win95-inset p-3 bg-white">
+          <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
             <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
               {availableSlots.map((slot) => {
                 const isBooked = bookedSlots.includes(slot);
@@ -227,62 +235,75 @@ export default function BookingWindow({ windowData }) {
                     type="button"
                     disabled={isBooked}
                     onClick={() => setSelectedSlot(slot)}
-                    className={`win95-btn py-1.5 font-mono text-xs font-bold transition-all ${
+                    className={`py-2 px-2.5 rounded-xl font-mono text-xs font-bold transition-all flex items-center justify-center gap-1 ${
                       isBooked
-                        ? 'opacity-40 line-through bg-gray-200 text-gray-500 cursor-not-allowed border-gray-400'
+                        ? 'bg-slate-200 text-slate-400 line-through cursor-not-allowed border border-slate-300/50'
                         : isSelected
-                        ? 'bg-accent font-extrabold text-olive-moss border-2 border-olive-moss shadow-inner'
-                        : 'bg-cream text-olive-moss hover:bg-cream-light'
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20 font-extrabold'
+                        : 'bg-white text-slate-700 hover:bg-blue-50 hover:text-blue-600 border border-slate-200'
                     }`}
                   >
-                    {slot} {isBooked ? '❌' : isSelected ? '✓' : ''}
+                    <span>{slot}</span>
+                    {isBooked ? (
+                      <XCircle className="w-3 h-3 text-slate-400 shrink-0" />
+                    ) : isSelected ? (
+                      <CheckCircle2 className="w-3 h-3 text-white shrink-0" />
+                    ) : null}
                   </button>
                 );
               })}
             </div>
 
-            <div className="flex items-center justify-between mt-2 pt-2 border-t border-olive-dark/20 text-[10px] font-mono text-olive-moss">
-              <span>✓ AVAILABLE</span>
-              <span className="text-accent font-bold">★ SELECTED: {selectedSlot || 'NONE'}</span>
-              <span className="line-through opacity-60">❌ BOOKED / UNAVAILABLE</span>
+            <div className="flex items-center justify-between text-[11px] font-medium text-slate-500 pt-2 border-t border-slate-200/80">
+              <span className="flex items-center gap-1 text-emerald-600 font-semibold">
+                <CheckCircle2 className="w-3 h-3" /> Available
+              </span>
+              <span className="font-bold text-blue-600">
+                Selected: {selectedSlot || 'None'}
+              </span>
+              <span className="flex items-center gap-1 text-slate-400 line-through">
+                <XCircle className="w-3 h-3" /> Booked
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Medical Notes */}
+        {/* Symptoms / Notes */}
         <div>
-          <label className="block font-bold text-olive-moss mb-1">
-            PATIENT NOTES / SYMPTOMS (OPTIONAL):
+          <label className="block font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+            <FileText className="w-3.5 h-3.5 text-slate-400" />
+            <span>PATIENT NOTES / SYMPTOMS (OPTIONAL)</span>
           </label>
           <textarea
             rows="2"
-            placeholder="Brief reason for consultation..."
+            placeholder="Brief description of consultation reason..."
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="win95-input w-full"
+            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
           />
         </div>
 
-        {/* Action Button */}
-        <div className="flex items-center justify-between pt-2 border-t border-olive-dark/20">
+        {/* Form Action Controls */}
+        <div className="flex items-center justify-between pt-2 border-t border-slate-200">
           <button
             type="button"
             onClick={() => closeWindow('booking')}
-            className="win95-btn text-xs font-bold"
+            className="px-4 py-2 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all"
           >
-            [ CANCEL ]
+            Cancel
           </button>
 
           <button
             type="submit"
             disabled={loading || !selectedSlot}
-            className={`win95-btn font-pixel text-sm px-6 py-1.5 font-bold ${
-              !selectedSlot
-                ? 'opacity-50 cursor-not-allowed'
-                : 'bg-accent text-olive-moss hover:bg-accent-amber'
+            className={`px-6 py-2.5 font-bold text-xs rounded-xl transition-all flex items-center gap-2 ${
+              !selectedSlot || loading
+                ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                : 'bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-500/20'
             }`}
           >
-            {loading ? 'PROCESSING RESERVATION...' : '[ CONFIRM APPOINTMENT ]'}
+            <CheckCircle2 className="w-4 h-4" />
+            <span>{loading ? 'Processing Reservation...' : 'Confirm Appointment'}</span>
           </button>
         </div>
       </form>

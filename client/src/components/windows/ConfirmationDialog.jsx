@@ -1,5 +1,6 @@
 import React from 'react';
 import { useWindowManager } from '../../context/WindowManagerContext';
+import { CheckCircle2, Printer, CalendarCheck, X } from 'lucide-react';
 
 export default function ConfirmationDialog({ windowData }) {
   const { closeWindow, openWindow } = useWindowManager();
@@ -11,7 +12,6 @@ export default function ConfirmationDialog({ windowData }) {
   const rawDate = app?.date || '2026-08-27';
   const timeSlot = app?.timeSlot || '10:00 AM';
 
-  // Format date like: 27 August 2026
   const formatDateString = (str) => {
     try {
       const d = new Date(str);
@@ -26,61 +26,66 @@ export default function ConfirmationDialog({ windowData }) {
   };
 
   return (
-    <div className="space-y-4 text-center select-text">
-      {/* Dialog Header Icon */}
-      <div className="win95-inset p-4 bg-cream flex flex-col items-center justify-center border-2 border-olive-moss">
-        <div className="text-5xl mb-2 animate-bounce">✅</div>
-        <h3 className="font-pixel text-xl font-extrabold text-olive-moss uppercase tracking-wider">
-          APPOINTMENT CONFIRMED
+    <div className="space-y-4 text-center">
+      {/* Header Banner */}
+      <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex flex-col items-center justify-center space-y-2">
+        <div className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-md shadow-emerald-500/20">
+          <CheckCircle2 className="w-7 h-7" />
+        </div>
+        <h3 className="font-extrabold text-base text-slate-900 tracking-tight">
+          Appointment Confirmed
         </h3>
-        <p className="text-xs font-mono font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 mt-1 border border-emerald-600">
-          STATUS: RESERVATION LOGGED IN MEDICARE CORE DATABASE
-        </p>
+        <span className="px-3 py-1 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-full border border-emerald-200">
+          Reservation Logged in MEDICARE Database
+        </span>
       </div>
 
       {/* Printable Receipt Card */}
-      <div className="win95-inset p-4 bg-white text-left font-mono text-xs space-y-2 border border-olive-moss/40 shadow-inner">
-        <div className="flex justify-between border-b border-olive-dark/20 pb-1 font-bold text-olive-moss">
-          <span>APPOINTMENT ID:</span>
-          <span className="text-accent-amber bg-olive-moss px-1.5 py-0.2">{appointmentId}</span>
+      <div className="p-4 bg-white border border-slate-200 rounded-2xl text-left text-xs space-y-3 shadow-xs">
+        <div className="flex justify-between items-center pb-2 border-b border-slate-100">
+          <span className="font-bold text-slate-500">APPOINTMENT ID:</span>
+          <span className="font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
+            {appointmentId}
+          </span>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 pt-1">
+        <div className="grid grid-cols-2 gap-3 pt-1">
           <div>
-            <span className="text-gray-500 block text-[10px]">DOCTOR:</span>
-            <strong className="text-olive-moss text-sm">{doctorName}</strong>
+            <span className="text-slate-400 block text-[10px] font-bold uppercase">Physician</span>
+            <strong className="text-slate-800 text-sm">{doctorName}</strong>
           </div>
 
           <div>
-            <span className="text-gray-500 block text-[10px]">DEPARTMENT:</span>
-            <strong className="text-olive-moss text-sm">{departmentName}</strong>
+            <span className="text-slate-400 block text-[10px] font-bold uppercase">Department</span>
+            <strong className="text-slate-800 text-sm">{departmentName}</strong>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 pt-1 border-t border-olive-dark/10">
+        <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
           <div>
-            <span className="text-gray-500 block text-[10px]">DATE:</span>
-            <strong className="text-olive-dark text-sm">{formatDateString(rawDate)}</strong>
+            <span className="text-slate-400 block text-[10px] font-bold uppercase">Consultation Date</span>
+            <strong className="text-slate-800 text-sm">{formatDateString(rawDate)}</strong>
           </div>
 
           <div>
-            <span className="text-gray-500 block text-[10px]">TIME:</span>
-            <strong className="text-olive-dark text-sm">{timeSlot}</strong>
+            <span className="text-slate-400 block text-[10px] font-bold uppercase">Time Slot</span>
+            <strong className="text-slate-800 text-sm">{timeSlot}</strong>
           </div>
         </div>
 
-        <div className="pt-2 border-t border-dashed border-olive-dark/30 text-[10px] text-gray-500 text-center">
-          PLEASE ARRIVE 15 MINUTES PRIOR TO APPOINTMENT WITH PATIENT ID.
-        </div>
+        <p className="pt-2 border-t border-dashed border-slate-200 text-[11px] text-slate-500 text-center font-medium">
+          Please arrive 15 minutes prior to appointment with valid patient identification.
+        </p>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex items-center justify-center gap-3 pt-2">
+      <div className="flex items-center justify-center gap-2 pt-1">
         <button
           onClick={handlePrint}
-          className="win95-btn bg-cream text-olive-moss font-pixel text-sm px-4 py-1 font-bold"
+          className="px-4 py-2 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all shadow-2xs flex items-center gap-1.5"
         >
-          🖨️ [ PRINT RECEIPT ]
+          <Printer className="w-3.5 h-3.5 text-slate-500" />
+          <span>Print Receipt</span>
         </button>
 
         <button
@@ -88,16 +93,17 @@ export default function ConfirmationDialog({ windowData }) {
             closeWindow('confirmation');
             openWindow('myAppointments');
           }}
-          className="win95-btn bg-accent text-olive-moss font-pixel text-sm px-6 py-1 font-bold"
+          className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-500/20 transition-all flex items-center gap-1.5"
         >
-          [ VIEW MY APPOINTMENTS ]
+          <CalendarCheck className="w-4 h-4" />
+          <span>View My Appointments</span>
         </button>
 
         <button
           onClick={() => closeWindow('confirmation')}
-          className="win95-btn text-xs px-3 py-1 font-bold"
+          className="px-3 py-2 bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 font-bold text-xs rounded-xl transition-all"
         >
-          [ CLOSE ]
+          Close
         </button>
       </div>
     </div>
