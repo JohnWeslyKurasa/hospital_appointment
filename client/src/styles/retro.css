@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Pixelify+Sans:wght@400;600;700&display=swap');
+
+@import "tailwindcss";
+
+
+/* Custom Windows 95/98 Engineering Graph Paper Background */
+body {
+  background-color: #f4f0e6;
+  background-image: 
+    linear-gradient(#e2dbc9 1px, transparent 1px),
+    linear-gradient(90deg, #e2dbc9 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: -1px -1px;
+  font-family: Tahoma, 'Geneva', Verdana, sans-serif;
+  color: #1a231c;
+  user-select: none;
+  overflow-x: hidden;
+}
+
+/* Retro Win95 3D Outset Box */
+.win95-box {
+  background-color: #f2efea;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #2b362c;
+  border-bottom: 2px solid #2b362c;
+  box-shadow: inset -1px -1px 0px #7d877e, inset 1px 1px 0px #dfdfdf;
+}
+
+/* Retro Win95 3D Inset Field/Container */
+.win95-inset {
+  background-color: #ffffff;
+  border-top: 2px solid #7d877e;
+  border-left: 2px solid #7d877e;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  box-shadow: inset 1px 1px 0px #2b362c;
+}
+
+/* Retro Win95 Titlebar */
+.win95-titlebar {
+  background: linear-gradient(90deg, #3d4f41 0%, #566d5b 100%);
+  color: #ffffff;
+  font-family: 'Pixelify Sans', Tahoma, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.win95-titlebar-inactive {
+  background: linear-gradient(90deg, #7f8b81 0%, #a2ad9e 100%);
+  color: #d1d8d2;
+}
+
+/* Retro Tiny Button */
+.win95-btn {
+  background-color: #f2efea;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #2b362c;
+  border-bottom: 2px solid #2b362c;
+  box-shadow: inset -1px -1px 0px #7d877e;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.win95-btn:hover {
+  background-color: #f9f6f0;
+}
+
+.win95-btn:active {
+  border-top: 2px solid #2b362c;
+  border-left: 2px solid #2b362c;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  box-shadow: inset 1px 1px 0px #7d877e;
+  padding-top: 4px;
+  padding-left: 9px;
+  padding-bottom: 2px;
+  padding-right: 7px;
+}
+
+.win95-btn-close {
+  background-color: #d9a05b;
+  color: #2b362c;
+  font-weight: 900;
+  width: 18px;
+  height: 18px;
+  border-top: 1.5px solid #ffffff;
+  border-left: 1.5px solid #ffffff;
+  border-right: 1.5px solid #2b362c;
+  border-bottom: 1.5px solid #2b362c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.win95-btn-close:hover {
+  background-color: #e2b85a;
+}
+
+.win95-btn-close:active {
+  border-top: 1.5px solid #2b362c;
+  border-left: 1.5px solid #2b362c;
+  border-right: 1.5px solid #ffffff;
+  border-bottom: 1.5px solid #ffffff;
+}
+
+/* Retro Inputs */
+.win95-input {
+  background-color: #ffffff;
+  border-top: 2px solid #7d877e;
+  border-left: 2px solid #7d877e;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  box-shadow: inset 1px 1px 0px #2b362c;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-family: Tahoma, Geneva, sans-serif;
+  color: #1a231c;
+  outline: none;
+}
+
+.win95-input:focus {
+  outline: 1px dotted #3d4f41;
+}
+
+/* Custom Win95 Pixel Scrollbars */
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+  background-color: #e6e2d8;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #f2efea;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #2b362c;
+  border-bottom: 2px solid #2b362c;
+  box-shadow: inset -1px -1px 0px #7d877e;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #e6e2d8;
+  background-image: repeating-linear-gradient(45deg, #e6e2d8, #e6e2d8 2px, #dfdfdf 2px, #dfdfdf 4px);
+}
+
+/* Retro Desktop Shortcut Hover */
+.desktop-icon-btn:hover {
+  background-color: rgba(61, 79, 65, 0.15);
+  outline: 1px dotted #3d4f41;
+}
+
+.desktop-icon-btn:focus, .desktop-icon-btn:active {
+  background-color: rgba(61, 79, 65, 0.3);
+  outline: 1px dashed #2b362c;
+}
