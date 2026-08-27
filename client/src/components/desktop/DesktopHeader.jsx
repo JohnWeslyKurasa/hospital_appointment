@@ -11,7 +11,7 @@ export default function DesktopHeader() {
       <div className="win95-box px-6 py-3 text-center border-2 border-olive-moss bg-cream-light max-w-2xl w-full shadow-md">
         <div className="flex items-center justify-between mb-1 border-b border-olive-dark/20 pb-1">
           <span className="text-[10px] font-mono text-olive-moss uppercase tracking-widest font-bold">
-            [ SYSTEM ID: MC-98-SYS-V1.0.9 ]
+            [ SYSTEM ID: MC-98-SYS-V1.2.0 • INDIAN RUPEE EDITION ]
           </span>
           <span className="text-[10px] font-mono bg-olive-moss text-cream px-2 py-0.5 font-bold">
             STATUS: READY
