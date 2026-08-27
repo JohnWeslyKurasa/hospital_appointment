@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-// Dynamically use VITE_API_URL environment variable from Vercel/production or fallback to local port 5000
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Render production backend URL fallback
+const RENDER_BACKEND_URL = 'https://hosipital-appionment.onrender.com/api';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || RENDER_BACKEND_URL;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
