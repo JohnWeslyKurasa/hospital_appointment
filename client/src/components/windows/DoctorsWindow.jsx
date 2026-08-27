@@ -124,7 +124,7 @@ export default function DoctorsWindow() {
                   <strong>AVAILABLE:</strong> {doc.availableDays?.join(', ') || 'MON-FRI'}
                 </div>
                 <div>
-                  <strong>FEE:</strong> ${doc.consultationFee} USD
+                  <strong>FEE:</strong> ₹{doc.consultationFee}
                 </div>
               </div>
 

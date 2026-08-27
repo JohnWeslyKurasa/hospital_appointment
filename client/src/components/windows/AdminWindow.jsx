@@ -286,7 +286,7 @@ export default function AdminWindow() {
               </div>
 
               <div>
-                <label className="block font-bold text-olive-moss text-[11px]">CONSULTATION FEE ($):</label>
+                <label className="block font-bold text-olive-moss text-[11px]">CONSULTATION FEE (₹):</label>
                 <input
                   type="number"
                   value={newDoc.consultationFee}

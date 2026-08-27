@@ -37,8 +37,8 @@ function DesktopContent() {
       <DesktopHeader />
 
       {/* Main Desktop Grid */}
-      <main className="flex-1 px-6 py-4 flex flex-col justify-start select-none">
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-8 gap-4 max-w-5xl mx-auto w-full">
+      <main className="flex-1 px-3 sm:px-6 py-3 flex flex-col items-center justify-start select-none">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-8 gap-2 sm:gap-4 max-w-5xl mx-auto w-full justify-items-center">
           {desktopIcons.map((item) => (
             <DesktopIcon
               key={item.id}
@@ -51,12 +51,12 @@ function DesktopContent() {
         </div>
 
         {/* Decorative Desktop Watermark Notice */}
-        <div className="mt-8 text-center pointer-events-none opacity-40 select-none">
-          <p className="font-pixel text-xs text-olive-moss uppercase tracking-widest font-bold">
+        <div className="mt-6 text-center pointer-events-none opacity-40 select-none">
+          <p className="font-pixel text-[11px] sm:text-xs text-olive-moss uppercase tracking-widest font-bold">
             MEDICARE.EXE — WINDOWS 98 CLINICAL COMPUTING ARCHITECTURE
           </p>
-          <p className="font-mono text-[10px] text-olive-dark">
-            PROPERTY OF MEDICARE CENTRAL HEALTHCARE TRUST • CONNECTED TO CLOUD ATLAS MONGO
+          <p className="font-mono text-[9px] sm:text-[10px] text-olive-dark">
+            PROPERTY OF MEDICARE CENTRAL HEALTHCARE TRUST • RESPONSIVE MOBILE CORE
           </p>
         </div>
       </main>

@@ -187,7 +187,7 @@ export default function BookingWindow({ windowData }) {
               <strong>SELECTED PHYSICIAN:</strong> {currentDoctor.name} ({currentDoctor.qualifications})
             </div>
             <div className="font-bold text-olive-moss bg-accent/20 px-2 py-0.5 border border-olive-moss">
-              FEE: ${currentDoctor.consultationFee} USD
+              FEE: ₹{currentDoctor.consultationFee}
             </div>
           </div>
         )}

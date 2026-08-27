@@ -13,7 +13,7 @@ const seedInitialData = async () => {
         { name: 'Neurology', code: 'NEUR', icon: '🧠', description: 'Brain, nerve, and spine health', location: 'Building B, Floor 4' },
         { name: 'Orthopedics', code: 'ORTH', icon: '🦴', description: 'Bones, joints, and musculoskeletal care', location: 'Building C, Floor 1' },
         { name: 'Ophthalmology', code: 'OPHT', icon: '👁️', description: 'Eye examinations, vision care & surgery', location: 'Building A, Floor 1' },
-        { name: 'Pulmonology', code: 'PULM', icon: '🫁', description: 'Lung and respiratory respiratory care', location: 'Building B, Floor 3' },
+        { name: 'Pulmonology', code: 'PULM', icon: '🫁', description: 'Lung and respiratory care', location: 'Building B, Floor 3' },
         { name: 'General Medicine', code: 'GENM', icon: '🩺', description: 'Primary care, checkups and internal medicine', location: 'Building A, Ground Floor' },
         { name: 'Dentistry', code: 'DENT', icon: '🦷', description: 'Dental health, surgery, and oral care', location: 'Building D, Floor 1' },
         { name: 'Pediatrics', code: 'PEDI', icon: '👶', description: 'Comprehensive child healthcare', location: 'Building C, Floor 2' }
@@ -46,7 +46,7 @@ const seedInitialData = async () => {
         email: 'patient@medicare.exe',
         password: 'patient123',
         role: 'patient',
-        phone: '+1 (555) 019-2831',
+        phone: '+91 98765 43210',
         dob: '1990-08-15',
         gender: 'Male',
         address: '42 Retro Way, Y2K City'
@@ -71,7 +71,7 @@ const seedInitialData = async () => {
         email: 'doctor@medicare.exe',
         password: 'doctor123',
         role: 'doctor',
-        phone: '+1 (555) 902-1144',
+        phone: '+91 98765 12345',
         dob: '1982-11-20',
         gender: 'Male',
         address: 'Cardiology Dept Office #204'
@@ -83,9 +83,9 @@ const seedInitialData = async () => {
           specialization: 'Interventional Cardiology',
           department: cardDept ? cardDept._id : null,
           departmentName: 'Cardiology',
-          qualifications: 'MD, FACC, Harvard Medical',
+          qualifications: 'MD, FACC, AIIMS Delhi',
           experience: '8 Years',
-          consultationFee: 75,
+          consultationFee: 800,
           availableDays: ['MON', 'TUE', 'WED', 'THU', 'FRI'],
           timeSlots: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '14:00', '14:30'],
           photoUrl: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=300',
@@ -98,7 +98,7 @@ const seedInitialData = async () => {
           departmentName: 'Neurology',
           qualifications: 'MD, PhD Neuroscience',
           experience: '12 Years',
-          consultationFee: 90,
+          consultationFee: 1000,
           availableDays: ['MON', 'WED', 'FRI'],
           timeSlots: ['09:00', '10:00', '11:00', '14:00', '15:00'],
           photoUrl: 'https://images.unsplash.com/photo-1594824813566-78a99479b189?auto=format&fit=crop&q=80&w=300'
@@ -110,7 +110,7 @@ const seedInitialData = async () => {
           departmentName: 'Orthopedics',
           qualifications: 'MS Orthopedics, FRCS',
           experience: '10 Years',
-          consultationFee: 80,
+          consultationFee: 750,
           availableDays: ['TUE', 'THU', 'SAT'],
           timeSlots: ['09:30', '10:30', '11:30', '14:30', '15:30'],
           photoUrl: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=300'
@@ -122,7 +122,7 @@ const seedInitialData = async () => {
           departmentName: 'Ophthalmology',
           qualifications: 'DO, Ophthalmology Specialist',
           experience: '6 Years',
-          consultationFee: 65,
+          consultationFee: 600,
           availableDays: ['MON', 'TUE', 'THU', 'FRI'],
           timeSlots: ['09:00', '09:30', '10:00', '10:30', '11:00'],
           photoUrl: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300'
@@ -134,7 +134,7 @@ const seedInitialData = async () => {
           departmentName: 'Pulmonology',
           qualifications: 'MD Pulmonology, FCCP',
           experience: '15 Years',
-          consultationFee: 85,
+          consultationFee: 900,
           availableDays: ['MON', 'WED', 'THU'],
           timeSlots: ['10:00', '10:30', '11:00', '14:00', '14:30'],
           photoUrl: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=300'
@@ -146,7 +146,7 @@ const seedInitialData = async () => {
           departmentName: 'General Medicine',
           qualifications: 'MBBS, MD Internal Med',
           experience: '7 Years',
-          consultationFee: 50,
+          consultationFee: 500,
           availableDays: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
           timeSlots: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '14:00', '14:30', '15:00'],
           photoUrl: 'https://images.unsplash.com/photo-1594824813566-78a99479b189?auto=format&fit=crop&q=80&w=300'

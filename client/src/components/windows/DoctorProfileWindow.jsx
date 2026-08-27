@@ -84,7 +84,7 @@ export default function DoctorProfileWindow({ windowData }) {
           </div>
           <div>
             <strong>CONSULTATION FEE:</strong>
-            <p className="text-olive-dark font-bold">${doctor.consultationFee} USD</p>
+            <p className="text-olive-dark font-bold">₹{doctor.consultationFee}</p>
           </div>
         </div>
 
